@@ -23,3 +23,5 @@ filter_with_filename.py
 Результат filter.py: ![](res.jpg)
 
 Результат filter_with_filename.py: ![](filter_with_filename_res.jpg)
+
+Результаты тестов: ![](test.png)
