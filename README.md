@@ -14,3 +14,12 @@
 filter_with_filename.py 
 ![](filter_with_filename.png) 
 Вследствие этого мы получили более объективную картину и прирост в производительности
+
+#Результаты программ:
+Файл для преобразований: ![](dog.jpg)
+
+Результат old_filter.py: ![](old_filter_res.jpg)
+
+Результат filter.py: ![](res.jpg)
+
+Результат filter_with_filename.py: ![](filter_with_filename_res.jpg)

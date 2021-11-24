@@ -27,5 +27,5 @@ height = len(image_pixels)
 result_image = convert_image(image_pixels, cell_size, gradation_step, width, height)
 res = Image.fromarray(result_image)
 
-name_result = "res.jpg"
+name_result = "filter_with_filename_res.jpg"
 res.save(name_result)
