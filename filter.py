@@ -2,59 +2,32 @@ from PIL import Image
 import numpy as np
 
 
-def get_medium_pixel_brightness(r, g, b, number_cells):
-    return r / number_cells + g / number_cells + b / number_cells
+def get_average_brightness_of_cell(cell, gray_step):
+    average_value = int(np.average(cell) // gray_step) * gray_step
+    return average_value
 
 
-def get_medium_cell_brightness(pixels, start_vertical, start_horizontal, size):
-    medium = 0
-    for i in range(start_vertical, start_vertical + size):
-        for j in range(start_horizontal, start_horizontal + size):
-            R, G, B = pixels[i][j]
-            medium += get_medium_pixel_brightness(R, G, B, size ** 2)
-    return int(medium)
-
-
-def get_new_color(medium_value, gradation):
-    return int(medium_value // gradation) * gradation / 3
-
-
-def convert_cell_to_pixel_art(pixels, start_vertical, start_horizontal,
-                              size, grad_step, m_brightness):
-    for i in range(start_vertical, start_vertical + size):
-        for j in range(start_horizontal, start_horizontal + size):
-            pixels[i][j] = [get_new_color(m_brightness, grad_step)] * 3
+def convert_image(pixels, c_size, gray_step, w, h):
+    for i in range(0, w - c_size + 1, c_size):
+        for j in range(0, h - c_size + 1, c_size):
+            cell = pixels[i:i + c_size, j:j + c_size]
+            cell.fill(get_average_brightness_of_cell(cell, gray_step))
     return pixels
 
 
-name_image = "img2.jpg"
-name_result = "res.jpg"
+name_image = input("Введите имя файла: ")
+cell_size = int(input("Введите размер ячейки: "))
+gradation_step = int(input("Введите размер шага градации серого: "))
 
 img = Image.open(name_image)
 image_pixels = np.array(img)
 width = len(image_pixels)
 height = len(image_pixels)
 
-cell_size = 10
-gradation_step = 50
+result_image = convert_image(image_pixels, cell_size, gradation_step, width, height)
+res = Image.fromarray(result_image)
 
-index_of_vertical = 0
-while index_of_vertical < width:
-    index_of_horizontal = 0
-    while index_of_horizontal < height:
-        medium_brightness = get_medium_cell_brightness(image_pixels,
-                                                       index_of_vertical,
-                                                       index_of_horizontal,
-                                                       cell_size)
-        image_pixels = convert_cell_to_pixel_art(image_pixels,
-                                                 index_of_vertical,
-                                                 index_of_horizontal,
-                                                 cell_size,
-                                                 gradation_step,
-                                                 medium_brightness)
-        index_of_horizontal += cell_size
-    index_of_vertical += cell_size
-
-res = Image.fromarray(image_pixels)
+input_name_for_result = input(
+    "Введите имя файла для результат или нажмите enter, чтобы файл сохранился с именем по умолчанию: ")
+name_result = "res.jpg" if input_name_for_result != r'/s*' else input_name_for_result
 res.save(name_result)
-
