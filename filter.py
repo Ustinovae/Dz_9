@@ -11,13 +11,19 @@ def get_average_brightness_of_cell(cell, gray_step):
     :type int
     :return:
     :type int
-    
+
+    >>> get_average_brightness_of_cell(10, 50)
+    0
+    >>> get_average_brightness_of_cell(30, 20)
+    20
+    >>> get_average_brightness_of_cell(78, 14)
+    70
     """
     average_value = int(np.average(cell) // gray_step) * gray_step
     return average_value
 
 
-def convert_image(pixels: np.array(), c_size: int, gray_step: int, w: int, h: int):
+def convert_image(pixels: np.array, c_size: int, gray_step: int, w: int, h: int):
     """Converting image pixels to pixel graphics
 
     :param pixels:
